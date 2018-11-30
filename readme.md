@@ -12,7 +12,7 @@ By now there is two functions
 Insert value in input hmtl 
 
 | Input     | Definition                            | Required | Type |
-|------|:------------------------------:|-------:|
+|-----------|:------------------------------:|-------:|-------|
 |  wait_obj | selenium wait obj                     |	yes    | String |
 | text_input| text to be inputed at the htlm input  |   yes    | String |
 | element   | selenium element                      |   yes    | String |
