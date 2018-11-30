@@ -3,7 +3,7 @@
 ## text_input  -> Values of text to be inserted on the <input>
 ## input_css or input_xpath -> The values of the selectors on their respective formats
 ## wait_obj -> The wait object of webdriver
-def input_value(wait_obj,text_input,element=driver,input_css=None,input_xpath=None,enter=False):
+def input_value(wait_obj,text_input,element,input_css=None,input_xpath=None,enter=False):
 
 	if input_css is not None:
 		wait_obj.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR,input_css)))
@@ -29,17 +29,24 @@ def input_value(wait_obj,text_input,element=driver,input_css=None,input_xpath=No
 
 
 # Click a html button with specific css tag or xpath o
-def click_button(button_css=None,button_xpath=None,element=driver):
+def click_button(wait_obj,element,button_css=None,button_xpath=None):
+
 	if button_css is not None:
+		wait_obj.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR,button_css)))
 		button_elements = element.find_elements_by_css_selector(button_css)
 		if len(button_elements) >0:
 			raise(Exception('This css_selector has 0 or more than 1 button_css in the page'))
+
 	elif button_xpath is not None:
+		wait_obj.until(EC.presence_of_all_elements_located(By.XPATH,button_xpath))
 		button_elements = element.find_elements_by_css_selector(button_xpath)
 		if len(button_elements) >0:
 			raise(Exception('This xpath has 0 or more than 1 buttons in the page'))
+			
 	else:
 		raise( Exception('There is no css_selector or xpath_selector'))
+
+		button_elements[0].click()
 
 
 
