@@ -1,7 +1,6 @@
-
-# Simple normal treat_text used multiple times
+# Simple  function to get only the interesting part of the HTML
 def treate_text(html_tag):
-	return html_tag	.text.replace('\n',' ').strip()
+	return html_tag.text.replace('\n',' ').strip()
 
 # Return the span text that is interesting
 def get_spans_text(p_element,index= None):
@@ -9,30 +8,32 @@ def get_spans_text(p_element,index= None):
 	if index is None:
 		return [treate_text(span) for span in p_element.find_all('span')]
 	else:
-		return treat_text(p_element.find_all('span')[index].text)
+		return treate_text(p_element.find_all('span')[index])
 
-def parse_job(element,user_id,company):
-	job = {'company':company}
-
-	# Title and location of the job
-	job['title'] = get_spans_text(p_element=element.find('h3'),index=1)
-
-	loc_class = 'pv-entity__location t-14 t-black--light t-normal block'
-	job['location'] = get_spans_text(p_element=element.find('h4',class_=loc_class),index=1)
-	
-	# Takes the period and duration of this job
-	job_time  = [span_text for span_text in get_spans_text(element.find('div',class_='display-flex'))]
-	job[job_time[0]] = job_time[1]
-	job[job_time[2]] = job_time[3]
-	description = element.find_all('p')
-	
-	if len(description) >0:
-		job['description'] = treate_text(description[0]).split('Visualizar')[0].strip()
-
-	return job
 
 # Parse jobs people that change works while in the same company
 def parse(element,user_id):
+
+	# Parse job child div getting the info about the positon
+	def parse_job(element,user_id,company):
+		job = {'company':company}
+
+		# Title and location of the job
+		job['title'] = get_spans_text(p_element=element.find('h3'),index=1)
+
+		loc_class = 'pv-entity__location t-14 t-black--light t-normal block'
+		job['location'] = get_spans_text(p_element=element.find('h4',class_=loc_class),index=1)
+		
+		# Takes the period and duration of this job
+		job_time  = [span_text for span_text in get_spans_text(element.find('div',class_='display-flex'))]
+		job[job_time[0]] = job_time[1]
+		job[job_time[2]] = job_time[3]
+		description = element.find_all('p')
+		
+		if len(description) >0:
+			job['description'] = treate_text(description[0]).split('Visualizar')[0].strip()
+
+		return job
 
 	# The css class for the name and total time at company 
 	css_class = 'pv-entity__company-details'

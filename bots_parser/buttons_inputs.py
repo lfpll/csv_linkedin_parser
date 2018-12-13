@@ -52,8 +52,8 @@ def click_button(wait_obj,element,button_css=None,button_xpath=None):
 
 		button_elements[0].click()
 
-# Click a button by his text
-## Using on some sides that hide the tags.
+# Click one button by his text 
+## Using on some sites that hide the tags and xpath is not working.
 def click_button_by_filter(element,text,element_name='button'):
 	button_list = element.find_elements_by_css_selector(element_name)
 	filt_list 	= list(filter(lambda butt_elem: butt_elem.text.find(text) >-1,button_list))
@@ -62,3 +62,10 @@ def click_button_by_filter(element,text,element_name='button'):
 	else:
 		raise(Exception("Button can't be clicked"))
 
+# Click everything that is passed by xpath
+## Solve problems with not visible buttons
+def click_everything(element,xpath):
+	buttons = list(filter(lambda button: button.is_displayed(),element.find_elements_by_xpath(xpath)))
+	if len(buttons) >0:
+		[driver.execute_script("arguments[0].click();", button) for button in buttons]
+			
