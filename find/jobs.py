@@ -8,7 +8,7 @@ def parse_single_job(li_element,company=None):
 
 	# Get the company name
 	if company is None:
-		title = treate_text(li_element.find('h3'))
+		title = treat_text(li_element.find('h3'))
 		job['title'] = title
 		comp_list = get_spans_text(p_element=li_element.find_all('h4')[0])
 		job[comp_list[0]] = comp_list[1]
@@ -36,7 +36,7 @@ def parse_single_job(li_element,company=None):
 	description = li_element.find_all('p')
 	# Parse Description
 	if isinstance(description,list) and len(description) >0:
-			job['description'] = treate_text(description[0]).split('Visualizar')[0]
+			job['description'] = treat_text(description[0]).split('Visualizar')[0]
 
 	return job
 

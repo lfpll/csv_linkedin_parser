@@ -7,7 +7,7 @@ def parse_edu_field(element):
 	school_name = element.find_all('h3',class_='pv-entity__school-name')
 	if len(school_name) != 1:
 		raise Exception('Invalid field of school')
-	education_obj['School Name'] = treate_text(school_name[0])
+	education_obj['School Name'] = treat_text(school_name[0])
 
 	# Get the graduation info of the course
 	grad_descrps = [get_spans_text(p) for p in element.find_all('p',class_="pv-entity__secondary-title")]
@@ -21,5 +21,5 @@ def parse_edu_field(element):
 
 	description = element.find_all("p",class_="pv-entity__description")
 	if len(description) >0:
-		education_obj['description'] = treate_text(description[0])
+		education_obj['description'] = treat_text(description[0])
 	return education_obj
