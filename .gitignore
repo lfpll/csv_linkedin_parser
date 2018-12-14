@@ -105,5 +105,4 @@ venv.bak/
 
 
 # My Ignores
-bots_parser/
 secure_vars.py
