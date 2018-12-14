@@ -1,17 +1,4 @@
-import re 
-
-space = re.compile('\s+')
-
-def treate_text(html_tag):
-	return re.sub(space,' ',html_tag.text.replace('\n',' ').strip())
-
-# Return the span text that is interesting
-def get_spans_text(p_element,index= None):
-	# Return a specif value or entire list depending on index
-	if index is None:
-		return [treate_text(span) for span in p_element.find_all('span')]
-	else:
-		return treate_text(p_element.find_all('span')[index])
+from generic_functions import treate_text,get_spans_text
 
 # Parse job li with one single job at the company
 ## There is hidden spans like <span id=key1>elem1</span><span id=key2>elem2</span>
@@ -27,7 +14,6 @@ def parse_single_job(li_element,user_id,company=None):
 		job[comp_list[0]] = comp_list[1]
 	else:
 		title = get_spans_text(p_element=li_element.find('h3'))
-		print(title)
 		job[title[0]] = title[1]
 		job['Nome da Empresa'] = company
 
@@ -43,7 +29,6 @@ def parse_single_job(li_element,user_id,company=None):
 	# Parse Duration
 	duration_spans  = [span_text for span_text in get_spans_text(li_element.find('div',class_='display-flex'))]
 	if len(duration_spans) != 4:
-		print(duration_spans)
 		raise Exception('Duration spans is in the right schema!')
 	job[duration_spans[0]] = duration_spans[1]
 	job[duration_spans[2]] = duration_spans[3]
