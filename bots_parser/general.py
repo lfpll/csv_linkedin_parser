@@ -21,7 +21,7 @@ def scroll_all_page(driver):
 			return
 		else:
 			driver.execute_script("window.scrollTo(0, %s);"%str(x))
-			scroll_all_page(x=x+200*random(),last_height=driver.execute_script("return document.body.scrollHeight"))
+			scroll_recursive(x=x+200*random(),last_height=driver.execute_script("return document.body.scrollHeight"))
 
 	scroll_recursive()
 

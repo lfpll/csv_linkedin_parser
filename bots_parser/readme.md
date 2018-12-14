@@ -1,6 +1,6 @@
 # Web Scraping General Functions #
 
-## input_clic.py ##
+## buttons_inputs.py ##
 
 By now there is two functions
 
