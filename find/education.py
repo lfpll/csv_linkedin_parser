@@ -1,9 +1,9 @@
-from generic_functions import *
+from find.generic_functions import *
 
 # Get the information from the field with education information
 ## Gets the different attributes by classes ang tags
-def parse_edu_field(element,user_id):
-	education_obj = {'user_id':user_id}
+def parse_edu_field(element):
+	education_obj = {}
 	school_name = element.find_all('h3',class_='pv-entity__school-name')
 	if len(school_name) != 1:
 		raise Exception('Invalid field of school')

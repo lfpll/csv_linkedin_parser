@@ -1,9 +1,9 @@
-from generic_functions import treate_text,get_spans_text
+from find.generic_functions import *
 
 # Parse job li with one single job at the company
 ## There is hidden spans like <span id=key1>elem1</span><span id=key2>elem2</span>
 ## The list gives the values of the obj and the keys for future data quality checking
-def parse_single_job(li_element,user_id,company=None):
+def parse_single_job(li_element,company=None):
 	job = {}
 
 	# Get the company name
@@ -39,3 +39,26 @@ def parse_single_job(li_element,user_id,company=None):
 			job['description'] = treate_text(description[0]).split('Visualizar')[0]
 
 	return job
+
+# Parse jobs of people that change works while in the same company
+def parse_multiple_jobs(li_element):
+
+	# The css class for the name and total time at company 
+	css_class = 'pv-entity__company-details'
+	attributes = [span_text for span_text in get_spans_text(li_element.find('div',class_=css_class))]
+	
+	if attributes[0] != 'Nome da empresa':
+		raise Exception('This style is not what was expected')
+	else:
+		company_name = attributes[1]
+
+	# Parsing the job roles that the person has worked
+	role_class = 'pv-entity__role-details-container'
+	child_divs = li_element.find_all('div',class_=role_class)
+
+	list_of_jobs = [parse_single_job(div,company=company_name) for div in child_divs]
+	return list_of_jobs
+	
+
+
+
