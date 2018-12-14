@@ -67,5 +67,5 @@ def click_button_by_filter(element,text,element_name='button'):
 def click_everything(element,xpath):
 	buttons = list(filter(lambda button: button.is_displayed(),element.find_elements_by_xpath(xpath)))
 	if len(buttons) >0:
-		[driver.execute_script("arguments[0].click();", button) for button in buttons]
+		[element.execute_script("arguments[0].click();", button) for button in buttons]
 			

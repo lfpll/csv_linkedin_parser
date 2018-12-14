@@ -1,13 +1,17 @@
 from bots_parser.buttons_inputs import input_value,click_button_by_filter,click_everything
-from bots_parser.general import filter_tag_by_text
+from bots_parser.general import filter_tag_by_text,scroll_all_page
+from find_jobs import *
 from secure_vars import url_test,password,login
+
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+
 from bs4 import BeautifulSoup
 from selenium import webdriver
-from random import random
 
+from random import random
+import re
 
 driver = webdriver.Chrome()
 wait = WebDriverWait(driver,20)
@@ -42,6 +46,20 @@ click_everything(element=driver,xpath="//*[contains(text(),'Exibir mais') and no
 
 
 soup = BeautifulSoup(driver.page_source)
-experience_list = soup.find_all('header')[0].find_parent('section').find_all('li')
-# pegar pelo span hidden
+experience_list = soup.find_all('h2',text=re.compile('Experiência\s+(?!\w)'))[0].find_parent('section').find_all('li',class_='pv-profile-section')
+
+
+for li_exp in experience_list:
+	list_h3 = li_exp.find_all('h3')
+	print('aee %s'%list_h3[0].text)
+	if len(list_h3) > 1:
+		print(multiple.parse(li_exp,user_id=1))
+	elif len(list_h3) == 1:
+		print(only_one.parse_single_job(li_exp,user_id=1))
+	else:
+		raise Exception('Not valid experience area')
+
+
+
+
 
