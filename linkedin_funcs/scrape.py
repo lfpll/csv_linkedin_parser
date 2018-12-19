@@ -41,12 +41,10 @@ def user_page(driver, url):
                 flattend.append(item)
         return flattend
 
-    driver.get(url)
     # Load all the dynamical content of the page
     scroll_all_page(driver=driver)
-    click_everything(element=driver,xpath="//a[contains(text(),'Visualizar mais') and not(contains(@style,'display:none'))]")
+    click_everything(element=driver,xpath="//*[contains(text(),'Visualizar mais') and not(contains(@style,'display:none'))]")
     click_everything(element=driver,xpath="//*[contains(text(),'Exibir mais') and not(contains(@style,'display:none'))]")
-    sleep(2)
 
     soup = BeautifulSoup(driver.page_source,'lxml')
 
@@ -63,6 +61,6 @@ def user_page(driver, url):
 
     edu_list = flatten([parse_edu_field(edu_field) for edu_field in edu_list])
 
-    experience_list = [switch_scrape_job(exp_field) for exp_field in experience_list]
+    experience_list = flatten([switch_scrape_job(exp_field) for exp_field in experience_list])
 
     return gen_info_dict, edu_list, experience_list, skills_list
