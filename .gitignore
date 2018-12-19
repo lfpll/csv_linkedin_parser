@@ -102,9 +102,12 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+<<<<<<< HEAD
 
 
 # My Ignores
 secure_vars.py
-.idea/
 treating data/
+.idea/
+
+
