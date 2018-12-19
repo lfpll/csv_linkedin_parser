@@ -27,11 +27,11 @@ def parse_single_job(li_element,company=None):
 		job['location'] = None
 
 	# Parse Duration
-	duration_spans  = [span_text for span_text in get_spans_text(li_element.find('div',class_='display-flex'))]
-	if len(duration_spans) != 4:
-		raise Exception('Duration spans is in the right schema!')
-	job[duration_spans[0]] = duration_spans[1]
-	job[duration_spans[2]] = duration_spans[3]
+	duration_spans = li_element.find_all('div',class_='display-flex')
+	if len(duration_spans) >0:
+		duration_spans  = [span_text for span_text in get_spans_text(duration_spans[0])]
+		job[duration_spans[0]] = duration_spans[1]
+		job[duration_spans[2]] = duration_spans[3]
 
 	description = li_element.find_all('p')
 	# Parse Description

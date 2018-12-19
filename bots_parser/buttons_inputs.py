@@ -1,7 +1,7 @@
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-
+from time import sleep
 # Insert value in html input type
 # There is two options if its by xpath and if it is by css_selector
 ## text_input  -> Values of text to be inserted on the <input>
@@ -65,7 +65,15 @@ def click_button_by_filter(element,text,element_name='button'):
 # Click everything that is passed by xpath
 ## Solve problems with not visible buttons
 def click_everything(element,xpath):
-	buttons = list(filter(lambda button: button.is_displayed(),element.find_elements_by_xpath(xpath)))
-	if len(buttons) >0:
-		[element.execute_script("arguments[0].click();", button) for button in buttons]
-			
+	tent =0
+	while tent<4:
+		buttons = list(element.find_elements_by_xpath(xpath))
+		if len(buttons) >0:
+			try:
+				[element.execute_script("arguments[0].click();", button) for button in buttons]
+				break
+			except Exception as e:
+				print(e)
+		sleep(2)
+		tent += 1
+

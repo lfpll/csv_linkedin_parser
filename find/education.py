@@ -10,9 +10,11 @@ def parse_edu_field(element):
 	education_obj['School Name'] = treat_text(school_name[0])
 
 	# Get the graduation info of the course
-	grad_descrps = [get_spans_text(p) for p in element.find_all('p',class_="pv-entity__secondary-title")]
-	for descrpt in grad_descrps:
-		education_obj[descrpt[0]] = descrpt[1]
+	grad_descrps = element.find_all('p',class_="pv-entity__secondary-title")
+	if len(grad_descrps)>0:
+		grad_descrps = [get_spans_text(p) for p in grad_descrps]
+		for descrpt in grad_descrps:
+			education_obj[descrpt[0]] = descrpt[1]
 
 	date_info = element.find_all('p',class_='pv-entity__dates')
 	if len(date_info) >0:
